@@ -1,0 +1,20 @@
+dist: xenial
+os: osx
+language: minimal
+arch: amd64
+# https://docs.travis-ci.com/user/reference/osx/#macos-version
+osx_image: xcode11.3
+env:
+  global:
+    - DASHCORE_VERSION=0.14.0.5
+    - ORIGINAL_HASH=29c27c055898061f1570292da776d6fc719ca9e6272745c280b15c32854cd4db
+    - EXPECTED_HASH=65a33773894c5993e295b957b9183f6f4eb26fdd42ea4d4157f19498957e1b16
+script:
+  - wget https://github.com/dashpay/dash/releases/download/v$DASHCORE_VERSION/dashcore-$DASHCORE_VERSION-osx.dmg
+  - export DOWNLOADED_HASH=$(shasum -a 256 dashcore-$DASHCORE_VERSION-osx.dmg | awk '{print $1;}')
+  - echo "ORIGINAL_HASH    = $ORIGINAL_HASH"; echo "DOWNLOADED_HASH  = $DOWNLOADED_HASH"
+  - if [ "$ORIGINAL_HASH" != "$DOWNLOADED_HASH" ]; then echo "Downloaded file does not match the original one!"; false; fi
+  - xcrun stapler staple dashcore-$DASHCORE_VERSION-osx.dmg
+  - export STAPLED_HASH=$(shasum -a 256 dashcore-$DASHCORE_VERSION-osx.dmg | awk '{print $1;}')
+  - echo "EXPECTED_HASH    = $EXPECTED_HASH"; echo "STAPLED_HASH     = $STAPLED_HASH"
+  - if [ "$EXPECTED_HASH" != "$STAPLED_HASH" ]; then echo "Stapled file does not match the expected result!"; false; fi
