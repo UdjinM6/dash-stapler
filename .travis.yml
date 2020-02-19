@@ -6,9 +6,9 @@ arch: amd64
 osx_image: xcode11.3
 env:
   global:
-    - DASHCORE_VERSION=0.14.0.5
-    - ORIGINAL_HASH=29c27c055898061f1570292da776d6fc719ca9e6272745c280b15c32854cd4db
-    - EXPECTED_HASH=65a33773894c5993e295b957b9183f6f4eb26fdd42ea4d4157f19498957e1b16
+    - DASHCORE_VERSION=0.15.0.0
+    - ORIGINAL_HASH=09f76396217eef6e5a7ba464d9b1f5abd78925b314f663bb709fdb02013899df
+    - EXPECTED_HASH=9fe20cbbb3050be5dc0db2b900ab0772395ffcd47679d0769158146febfacdc3
 script:
   - wget https://github.com/dashpay/dash/releases/download/v$DASHCORE_VERSION/dashcore-$DASHCORE_VERSION-osx.dmg
   - export DOWNLOADED_HASH=$(shasum -a 256 dashcore-$DASHCORE_VERSION-osx.dmg | awk '{print $1;}')
